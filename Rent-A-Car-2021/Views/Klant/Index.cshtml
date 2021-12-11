@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Rent_A_Car_2021.Models.Klant>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Voorletters)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tussenvoegsels)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Achternaam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adres)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Postcode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Woonplaats)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Voorletters)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tussenvoegsels)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Achternaam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Postcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Woonplaats)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Klantcode">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Klantcode">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Klantcode">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
