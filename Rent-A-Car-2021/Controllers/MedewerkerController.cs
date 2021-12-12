@@ -12,30 +12,28 @@ using Rent_A_Car_2021.Models.ViewModels;
 
 namespace Rent_A_Car_2021.Controllers
 {
-    public class KlantController : Controller
+    public class MedewerkerController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public KlantController(ApplicationDbContext context 
+        public MedewerkerController(ApplicationDbContext context
             , UserManager<IdentityUser> userManager
-            , RoleManager<IdentityRole> roleManager
-            , SignInManager<IdentityUser> signInManager)
+            , RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
-        // GET: Klant
+        // GET: Medewerker
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Klanten.ToListAsync());
+            return View(await _context.Medewerkers.ToListAsync());
         }
 
-        // GET: Klant/Details/5
+        // GET: Medewerker/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -43,30 +41,28 @@ namespace Rent_A_Car_2021.Controllers
                 return NotFound();
             }
 
-            var klant = await _context.Klanten
-                .FirstOrDefaultAsync(m => m.Klantcode == id);
-            if (klant == null)
+            var medewerker = await _context.Medewerkers
+                .FirstOrDefaultAsync(m => m.Medewerkerscode == id);
+            if (medewerker == null)
             {
                 return NotFound();
             }
 
-            return View(klant);
+            return View(medewerker);
         }
 
-        // GET: Klant/Create
+        // GET: Medewerker/Create
         public IActionResult Create()
         {
-            var model = new RegisterCustomer();
-
             return View();
         }
 
-        // POST: Klant/Create
+        // POST: Medewerker/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,Wachtwoord,Wachtwoord2,Voorletters,Tussenvoegsels,Achternaam,Adres,Postcode,Woonplaats")] RegisterCustomer model)
+        public async Task<IActionResult> Create([Bind("Email,Wachtwoord,Wachtwoord2,Medewerkerscode,Voornaam,Tussenvoegsels,Achternaam")] RegisterEmployee model)
         {
             if (ModelState.IsValid)
             {
@@ -74,28 +70,23 @@ namespace Rent_A_Car_2021.Controllers
                 var user = _context.Users.FirstOrDefault(u => u.UserName == model.Email);
                 user.Email = user.UserName;
                 user.NormalizedEmail = user.NormalizedUserName;
-                await _userManager.AddToRoleAsync(user , "Customer");
-                var newCustomer = new Klant()
+                await _userManager.AddToRoleAsync(user, "Customer");
+                var newEmployee = new Medewerker()
                 {
                     Achternaam = model.Achternaam,
-                    Adres = model.Adres,
-                    Postcode = model.Postcode.ToUpper(),
-                    Klantcode = model.Achternaam.Substring(0, 3).ToUpper() +
-                    model.Postcode.Substring(0, 3).ToUpper(),
-                    Voorletters = model.Voorletters.ToUpper(),
+                    Medewerkerscode = model.Medewerkerscode,
+                    Voornaam = model.Voornaam,
                     Tussenvoegsels = model.Tussenvoegsels,
-                    Woonplaats = model.Woonplaats,
                     AspNetUserNavigation = user
                 };
-                _context.Add(newCustomer);
+                _context.Add(newEmployee);
                 await _context.SaveChangesAsync();
-                _signInManager.CheckPasswordSignInAsync(user, model.Wachtwoord,false);
-                return RedirectToAction("Index" , "Home");
+                return RedirectToAction(nameof(Index));
             }
             return View(model);
         }
 
-        // GET: Klant/Edit/5
+        // GET: Medewerker/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -103,22 +94,22 @@ namespace Rent_A_Car_2021.Controllers
                 return NotFound();
             }
 
-            var klant = await _context.Klanten.FindAsync(id);
-            if (klant == null)
+            var medewerker = await _context.Medewerkers.FindAsync(id);
+            if (medewerker == null)
             {
                 return NotFound();
             }
-            return View(klant);
+            return View(medewerker);
         }
 
-        // POST: Klant/Edit/5
+        // POST: Medewerker/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Klantcode,Voorletters,Tussenvoegsels,Achternaam,Adres,Postcode,Woonplaats")] Klant klant)
+        public async Task<IActionResult> Edit(string id, [Bind("Medewerkerscode,Voornaam,Tussenvoegsels,Achternaam")] Medewerker medewerker)
         {
-            if (id != klant.Klantcode)
+            if (id != medewerker.Medewerkerscode)
             {
                 return NotFound();
             }
@@ -127,12 +118,12 @@ namespace Rent_A_Car_2021.Controllers
             {
                 try
                 {
-                    _context.Update(klant);
+                    _context.Update(medewerker);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!KlantExists(klant.Klantcode))
+                    if (!MedewerkerExists(medewerker.Medewerkerscode))
                     {
                         return NotFound();
                     }
@@ -143,10 +134,10 @@ namespace Rent_A_Car_2021.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(klant);
+            return View(medewerker);
         }
 
-        // GET: Klant/Delete/5
+        // GET: Medewerker/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -154,30 +145,30 @@ namespace Rent_A_Car_2021.Controllers
                 return NotFound();
             }
 
-            var klant = await _context.Klanten
-                .FirstOrDefaultAsync(m => m.Klantcode == id);
-            if (klant == null)
+            var medewerker = await _context.Medewerkers
+                .FirstOrDefaultAsync(m => m.Medewerkerscode == id);
+            if (medewerker == null)
             {
                 return NotFound();
             }
 
-            return View(klant);
+            return View(medewerker);
         }
 
-        // POST: Klant/Delete/5
+        // POST: Medewerker/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var klant = await _context.Klanten.FindAsync(id);
-            _context.Klanten.Remove(klant);
+            var medewerker = await _context.Medewerkers.FindAsync(id);
+            _context.Medewerkers.Remove(medewerker);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool KlantExists(string id)
+        private bool MedewerkerExists(string id)
         {
-            return _context.Klanten.Any(e => e.Klantcode == id);
+            return _context.Medewerkers.Any(e => e.Medewerkerscode == id);
         }
     }
 }

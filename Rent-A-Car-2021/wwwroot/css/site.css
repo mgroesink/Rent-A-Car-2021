@@ -72,3 +72,141 @@ body {
 img {
     width: 100%;
 }
+
+
+/*Renta-A-Car*/
+#logo {
+    position: absolute;
+    display: inline;
+    height: 150px;
+    width: 150px;
+    margin: 20px;
+    width: 300px;
+    left: 0;
+}
+#logo img{
+    width:75px;
+}
+
+#home_image {
+    width: 80%;
+}
+
+#pageheader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: blue;
+    height: 200px;
+    width: 100%;
+}
+
+#companyname {
+    position: absolute;
+    color: white;
+    text-align: left;
+    font-size: 2.5em;
+    margin-top: 50px;
+    width: 60%;
+    left: 300px;
+}
+
+#menu {
+    text-align: center;
+    background-color: blue;
+    height: 100%;
+}
+
+    #menu a {
+        display: block;
+        margin: 20px;
+    }
+
+#userinfo {
+    position: absolute;
+    right: 25px;
+    display: inline;
+    width: 20%;
+    height: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+    #userinfo a {
+        display: block;
+        text-decoration: none;
+        border-radius: 10px;
+        border: 2px solid black;
+        background-color: lightblue;
+        margin: 10px 20px 10px 20px;
+        font-size: 1.2em;
+        padding: 10px;
+    }
+
+.username {
+    text-align: center;
+    color: darkblue;
+    font-size: 2em;
+    height: 100%;
+}
+
+.row img {
+    width: 100%;
+}
+
+#container {
+    position: absolute;
+    top: 200px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    padding-right: 10px;
+}
+
+form {
+    width: 100%;
+}
+
+/*#footer {
+    padding-top:5px;
+    height: 6%;
+    background-color: blue;
+    color:white;
+    width: 100%;
+    text-align: center;
+    font-style: italic;
+}*/
+
+.form-control {
+    margin-left: 10px;
+    max-width: 300px;
+}
+
+#pageheader {
+    position: absolute;
+    top: 0;
+    background-color: blue;
+    height: 200px;
+    width: 100%;
+}
+
+#primary-contact-info {
+    font-size: .5em;
+    font-style: italic;
+}
+
+#page-content {
+    position: absolute;
+    /*padding-top: 25px;
+    padding-left: 25px;*/
+    height: 100%;
+    margin-left: 50px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.control-label {
+    text-align: left;
+}

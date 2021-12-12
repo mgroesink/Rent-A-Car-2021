@@ -2,24 +2,23 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Rent_A_Car_2021.Models.ViewModels
 {
-    public class RegisterCustomer
+    public class RegisterEmployee
     {
-        [Required] 
-        public string Voorletters { get; set; }
+        [Key, StringLength(5)]
+        [Column(TypeName = "char")]
+        public string Medewerkerscode { get; set; }
+        [Required, StringLength(25)]
+        public string Voornaam { get; set; }
+        [StringLength(15)]
         public string Tussenvoegsels { get; set; }
-        [Required]
+        [Required, StringLength(50)]
         public string Achternaam { get; set; }
-        [Required] 
-        public string Adres { get; set; }
-        [Required] 
-        public string Postcode { get; set; }
-        [Required] 
-        public string Woonplaats { get; set; }
         //
         // Summary:
         //     This API supports the ASP.NET Core Identity default UI infrastructure and is
