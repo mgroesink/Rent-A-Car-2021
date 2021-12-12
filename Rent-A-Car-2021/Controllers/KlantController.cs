@@ -89,8 +89,7 @@ namespace Rent_A_Car_2021.Controllers
                 };
                 _context.Add(newCustomer);
                 await _context.SaveChangesAsync();
-                await _signInManager.CheckPasswordSignInAsync(user, model.Wachtwoord,false);
-                return RedirectToAction("Index" , "Home");
+                return RedirectToAction(nameof(Index));
             }
             return View(model);
         }
