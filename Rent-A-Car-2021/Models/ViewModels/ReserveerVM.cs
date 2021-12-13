@@ -20,7 +20,12 @@ namespace Rent_A_Car_2021.Models.ViewModels
         public ReserveerVM(ApplicationDbContext db)
         {
             _db = db;
-            AvailableCars = db.Autos.ToList();
+            AvailableCars = _db.Autos.ToList();
+
+        }
+        public ReserveerVM()
+        {
+            AvailableCars = _db.Autos.ToList();
         }
     }
 }

@@ -23,8 +23,8 @@
             foto = "\\images\\no-image.jpg";
         }
         <div class="col-md-3">
-            <form method="post" asp-action="Create" asp-controller="Reserveer">
-                <input asp-for="@Model.Kenteken" type="hidden" value="@item.Kenteken" />
+
+
                 <div class="card">
                     <div class="card-title">@item.Merk - @item.Type</div>
                     <div class="card-body">
@@ -33,20 +33,25 @@
 
                     </div>
                     <div class="card-footer">
-                        <label asp-for="@Model.Van" class="control-label"></label>
-                        <input asp-for="@Model.Van" class="form-control" />
+                        <form method="post" asp-action="Create" asp-controller="Reserveer" asp-route-id="@item.Kenteken">
+                            <input asp-for="@Model.Kenteken" type="hidden" value="@item.Kenteken" />
+                            <label asp-for="@Model.Van" class="control-label"></label>
+                            <input asp-for="@Model.Van" class="form-control" />
 
-                        <label asp-for="@Model.AantalDagen" class="control-label"></label>
-                        <input asp-for="@Model.AantalDagen" class="form-control" />
+                            <label asp-for="@Model.AantalDagen" class="control-label"></label>
+                            <input asp-for="@Model.AantalDagen" class="form-control" />
+                            @*<a class="btn-info" asp-action="Create" asp-controller="Reserveer">Reserveer</a>*@
+                            <input type="submit" class="btn-info" value="Plaats order" />
+
+                        </form>
                     </div>
-                    <input type="submit"class="btn-info">Plaats order/>
 
                     @*Only display the button if a customer is logged in*@
                     @*@if (User.IsInRole("Customer"))
                         {*@
                     @*}*@
                 </div>
-            </form>
+
         </div>
 
     }

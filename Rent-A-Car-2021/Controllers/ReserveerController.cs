@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Rent_A_Car_2021.Data;
 using Rent_A_Car_2021.Models;
 using Rent_A_Car_2021.Models.ViewModels;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace Rent_A_Car_2021.Controllers
 {
@@ -56,15 +58,33 @@ namespace Rent_A_Car_2021.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ReserveerVM factuurregel)
+        public async Task<IActionResult> Create(string Kenteken, DateTime Van , int AantalDagen)
         {
-            if (ModelState.IsValid)
+            var item = new Factuurregel();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            item.Auto = _context.Autos.FirstOrDefault(a => a.Kenteken == Kenteken);
+            item.Begindatum = Van;
+            item.Einddatum = Van.AddDays(AantalDagen);
+            item.Dagprijs = item.Auto.Dagprijs;
+            item.Kenteken = Kenteken;
+            if (HttpContext.Session.GetInt32("OrderNumber") == null)
             {
-                _context.Add(factuurregel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                item.Factuur = new Factuur()
+                {
+                    Datum = DateTime.Now,
+                    Klant = _context.Klanten.FirstOrDefault(k => k.AspNetUserNavigation.Id == userId)
+                };
             }
-            return View(factuurregel);
+            else
+            {
+                item.Factuurnummer = (int)HttpContext.Session.GetInt32("OrderNumber");
+            }
+                await _context.AddAsync(item);
+                await _context.SaveChangesAsync();
+            HttpContext.Session.SetInt32("OrderNumber", item.Factuur.Factuurnummer);
+
+            var model = new ReserveerVM(_context);
+            return View(model);
         }
 
         // GET: Reserveer/Edit/5

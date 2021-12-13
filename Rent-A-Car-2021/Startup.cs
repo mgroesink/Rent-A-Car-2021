@@ -28,10 +28,17 @@ namespace Rent_A_Car_2021
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -62,7 +69,7 @@ namespace Rent_A_Car_2021
             app.UseAuthentication();
             app.UseAuthorization();
             dbInitializer.Initialize();
-
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
