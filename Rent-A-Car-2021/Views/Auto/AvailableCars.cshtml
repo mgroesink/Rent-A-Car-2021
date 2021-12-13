@@ -11,6 +11,7 @@
 
     @foreach (var item in Model)
     {
+
         var foto = "";
         var filename = _env.WebRootPath + "\\images\\" + item.Auto.Kenteken + ".jpg";
         if (System.IO.File.Exists(filename))
@@ -21,29 +22,32 @@
         {
             foto = "\\images\\no-image.jpg";
         }
-    <form name="@item.Auto.Kenteken" asp-action="Create" asp-controller="Factuur">
-        <input type="hidden" value="@item.Auto.Kenteken" />
-        <div class="card">
-            <div class="card-title">@item.Auto.Merk - @item.Auto.Type</div>
-            <div class="card-body">
-                <img src="@foto" alt="@item.Auto.Kenteken" title="@item.Auto.Kenteken - @item.Auto.Merk" style="width:100%" />
-                <span>Dagprijs: € @item.Auto.Dagprijs</span>
+        <div class="col-md-3">
+            <form name="@item.Auto.Kenteken" asp-action="Create" asp-controller="Factuur">
+                <input type="hidden" value="@item.Auto.Kenteken" />
+                <div class="card">
+                    <div class="card-title">@item.Auto.Merk - @item.Auto.Type</div>
+                    <div class="card-body">
+                        <img src="@foto" alt="@item.Auto.Kenteken" title="@item.Auto.Kenteken - @item.Auto.Merk" style="width:100%" />
+                        <span>Dagprijs: € @item.Auto.Dagprijs</span>
 
-            </div>
-            <div class="card-footer">
-                <label asp-for="@item.Van" class="control-label"></label>
-                <input asp-for="@item.Van" class="form-control" />
+                    </div>
+                    <div class="card-footer">
+                        <label asp-for="@item.Van" class="control-label"></label>
+                        <input asp-for="@item.Van" class="form-control" />
 
-                <label asp-for="@item.AantalDagen" class="control-label"></label>
-                <input asp-for="@item.AantalDagen" class="form-control" />
-            </div>
+                        <label asp-for="@item.AantalDagen" class="control-label"></label>
+                        <input asp-for="@item.AantalDagen" class="form-control" />
+                    </div>
 
-            @*Only display the button if a customer is logged in*@
-            @*@if (User.IsInRole("Customer"))
-            {*@
-                <a asp-controller="Factuur" asp-action="Create" class="btn-info">Plaats order</a>
-            @*}*@
+                    @*Only display the button if a customer is logged in*@
+                    @*@if (User.IsInRole("Customer"))
+                        {*@
+                    @*}*@
+                </div>
+            </form>
         </div>
-    </form>
+        <a asp-controller="Factuur" asp-action="Create" class="btn-info">Plaats order</a>
+
     }
 </div>
