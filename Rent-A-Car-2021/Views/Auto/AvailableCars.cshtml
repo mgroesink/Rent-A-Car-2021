@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Rent_A_Car_2021.Models.Auto>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Customer.cshtml";
+}
+<h2>Overzicht beschikbare auto's</h2>
+
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        @{
+            var foto = "\\images\\" + item.Kenteken + ".jpg";
+        }
+        <div class="col-md-2">
+            <img src="@foto" alt="@item.Kenteken" title="@item.Kenteken - @item.Merk" style="width:100%" />
+            @Html.DisplayFor(modelItem => item.Merk)
+            @Html.DisplayFor(modelItem => item.Type)<br />
+            Kenteken @Html.DisplayFor(modelItem => item.Kenteken)<br />
+            Dagprijs @Html.DisplayFor(modelItem => item.Dagprijs)<br />
+            @*Only display the button if a customer is logged in*@
+            @if(User.IsInRole("Customer"))
+            {
+                <a asp-controller="Factuur" asp-action="Create" class="btn-info"></a>
+                    @*@Html.ActionLink("Reserveer", "Create", "Order", new { license = item.Kenteken }, new { @class = "button btn-info" });*@
+                }
+            }
+        </div>
+    }
+</div>

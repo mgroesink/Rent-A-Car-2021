@@ -70,7 +70,7 @@ namespace Rent_A_Car_2021.Controllers
                 var user = _context.Users.FirstOrDefault(u => u.UserName == model.Email);
                 user.Email = user.UserName;
                 user.NormalizedEmail = user.NormalizedUserName;
-                await _userManager.AddToRoleAsync(user, "Customer");
+                await _userManager.AddToRoleAsync(user, "Employee");
                 var newEmployee = new Medewerker()
                 {
                     Achternaam = model.Achternaam,
