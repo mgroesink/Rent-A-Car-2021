@@ -17,12 +17,10 @@ namespace Rent_A_Car_2021.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
 
         public KlantController(ApplicationDbContext context 
             , UserManager<IdentityUser> userManager
-            , RoleManager<IdentityRole> roleManager
-            , SignInManager<IdentityUser> signInManager)
+            , RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
