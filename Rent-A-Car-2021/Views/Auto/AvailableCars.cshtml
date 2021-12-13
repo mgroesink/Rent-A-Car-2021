@@ -21,28 +21,29 @@
         {
             foto = "\\images\\no-image.jpg";
         }
-
-        <div class="col-md-2">
-            <div class="card">
+    <form name="@item.Auto.Kenteken" asp-action="Create" asp-controller="Factuur">
+        <input type="hidden" value="@item.Auto.Kenteken" />
+        <div class="card">
+            <div class="card-title">@item.Auto.Merk - @item.Auto.Type</div>
+            <div class="card-body">
                 <img src="@foto" alt="@item.Auto.Kenteken" title="@item.Auto.Kenteken - @item.Auto.Merk" style="width:100%" />
-                @Html.DisplayFor(modelItem => item.Auto.Merk)
-                @Html.DisplayFor(modelItem => item.Auto.Type)<br />
-                Kenteken @Html.DisplayFor(modelItem => item.Auto.Kenteken)<br />
-                Dagprijs @Html.DisplayFor(modelItem => item.Auto.Dagprijs)<br />
+                <span>Dagprijs: € @item.Auto.Dagprijs</span>
+
+            </div>
+            <div class="card-footer">
                 <label asp-for="@item.Van" class="control-label"></label>
                 <input asp-for="@item.Van" class="form-control" />
 
                 <label asp-for="@item.AantalDagen" class="control-label"></label>
                 <input asp-for="@item.AantalDagen" class="form-control" />
-
-                @*Only display the button if a customer is logged in*@
-                @if (User.IsInRole("Customer"))
-                {
-                    <a asp-controller="Factuur" asp-action="Create" class="btn-info"></a>
-                    @*@Html.ActionLink("Reserveer", "Create", "Order", new { license = item.Kenteken }, new { @class = "button btn-info" });*@
-                }
             </div>
-            
+
+            @*Only display the button if a customer is logged in*@
+            @*@if (User.IsInRole("Customer"))
+            {*@
+                <a asp-controller="Factuur" asp-action="Create" class="btn-info">Plaats order</a>
+            @*}*@
         </div>
+    </form>
     }
 </div>

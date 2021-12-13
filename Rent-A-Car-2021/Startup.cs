@@ -11,6 +11,7 @@ using Rent_A_Car_2021.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Rent_A_Car_2021
@@ -27,6 +28,7 @@ namespace Rent_A_Car_2021
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -39,7 +41,7 @@ namespace Rent_A_Car_2021
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -59,7 +61,9 @@ namespace Rent_A_Car_2021
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+            dbInitializer.Initialize();
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

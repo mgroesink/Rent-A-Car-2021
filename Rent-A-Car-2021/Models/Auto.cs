@@ -20,5 +20,13 @@ namespace Rent_A_Car_2021.Models
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Dagprijs { get; set; }
+
+        public Auto(string kenteken , string merk , string type , decimal dagprijs)
+        {
+            Kenteken = kenteken;
+            Merk = merk;
+            Type = type;
+            Dagprijs = dagprijs;
+        }
     }
 }
