@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rent_A_Car_2021.Data;
 using Rent_A_Car_2021.Models;
+using Rent_A_Car_2021.Models.ViewModels;
 
 namespace Rent_A_Car_2021.Controllers
 {
@@ -145,10 +146,16 @@ namespace Rent_A_Car_2021.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> AvailableCars()
+        public IActionResult AvailableCars()
         {
-
-            return View();
+            List<ReserveerVM> availableCars = new List<ReserveerVM>();
+            foreach(var auto in _context.Autos)
+            {
+                var model = new ReserveerVM();
+                model.Auto = auto;
+                availableCars.Add(model);
+            }
+            return View(availableCars);
         }
 
         private bool AutoExists(string id)
