@@ -11,85 +11,86 @@ using Rent_A_Car_2021.Models.ViewModels;
 
 namespace Rent_A_Car_2021.Controllers
 {
-    public class AutoController : Controller
+    public class ReserveerController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AutoController(ApplicationDbContext context)
+        public ReserveerController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Auto
+        // GET: Reserveer
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Autos.ToListAsync());
+            return View(await _context.Factuurregels.ToListAsync());
         }
 
-        // GET: Auto/Details/5
-        public async Task<IActionResult> Details(string id)
+        // GET: Reserveer/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var auto = await _context.Autos
-                .FirstOrDefaultAsync(m => m.Kenteken == id);
-            if (auto == null)
+            var factuurregel = await _context.Factuurregels
+                .FirstOrDefaultAsync(m => m.Factuurnummer == id);
+            if (factuurregel == null)
             {
                 return NotFound();
             }
 
-            return View(auto);
+            return View(factuurregel);
         }
 
-        // GET: Auto/Create
+        // GET: Reserveer/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new ReserveerVM(_context);
+            return View(model);
         }
 
-        // POST: Auto/Create
+        // POST: Reserveer/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Kenteken,Merk,Type,Dagprijs")] Auto auto)
+        public async Task<IActionResult> Create(ReserveerVM factuurregel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(auto);
+                _context.Add(factuurregel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(auto);
+            return View(factuurregel);
         }
 
-        // GET: Auto/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        // GET: Reserveer/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var auto = await _context.Autos.FindAsync(id);
-            if (auto == null)
+            var factuurregel = await _context.Factuurregels.FindAsync(id);
+            if (factuurregel == null)
             {
                 return NotFound();
             }
-            return View(auto);
+            return View(factuurregel);
         }
 
-        // POST: Auto/Edit/5
+        // POST: Reserveer/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Kenteken,Merk,Type,Dagprijs")] Auto auto)
+        public async Task<IActionResult> Edit(int id, [Bind("Begindatum,Einddatum,Dagprijs,Factuurnummer,Kenteken")] Factuurregel factuurregel)
         {
-            if (id != auto.Kenteken)
+            if (id != factuurregel.Factuurnummer)
             {
                 return NotFound();
             }
@@ -98,12 +99,12 @@ namespace Rent_A_Car_2021.Controllers
             {
                 try
                 {
-                    _context.Update(auto);
+                    _context.Update(factuurregel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AutoExists(auto.Kenteken))
+                    if (!FactuurregelExists(factuurregel.Factuurnummer))
                     {
                         return NotFound();
                     }
@@ -114,41 +115,41 @@ namespace Rent_A_Car_2021.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(auto);
+            return View(factuurregel);
         }
 
-        // GET: Auto/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        // GET: Reserveer/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var auto = await _context.Autos
-                .FirstOrDefaultAsync(m => m.Kenteken == id);
-            if (auto == null)
+            var factuurregel = await _context.Factuurregels
+                .FirstOrDefaultAsync(m => m.Factuurnummer == id);
+            if (factuurregel == null)
             {
                 return NotFound();
             }
 
-            return View(auto);
+            return View(factuurregel);
         }
 
-        // POST: Auto/Delete/5
+        // POST: Reserveer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var auto = await _context.Autos.FindAsync(id);
-            _context.Autos.Remove(auto);
+            var factuurregel = await _context.Factuurregels.FindAsync(id);
+            _context.Factuurregels.Remove(factuurregel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AutoExists(string id)
+        private bool FactuurregelExists(int id)
         {
-            return _context.Autos.Any(e => e.Kenteken == id);
+            return _context.Factuurregels.Any(e => e.Factuurnummer == id);
         }
     }
 }

@@ -1,0 +1,45 @@
+﻿@model Rent_A_Car_2021.Models.Factuurregel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Factuurregel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Begindatum" class="control-label"></label>
+                <input asp-for="Begindatum" class="form-control" />
+                <span asp-validation-for="Begindatum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Einddatum" class="control-label"></label>
+                <input asp-for="Einddatum" class="form-control" />
+                <span asp-validation-for="Einddatum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dagprijs" class="control-label"></label>
+                <input asp-for="Dagprijs" class="form-control" />
+                <span asp-validation-for="Dagprijs" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Factuurnummer" />
+            <input type="hidden" asp-for="Kenteken" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

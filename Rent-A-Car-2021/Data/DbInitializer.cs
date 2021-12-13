@@ -26,7 +26,21 @@ namespace Rent_A_Car_2021.Data
 
         public void Initialize()
         {
-
+            if(_db.Autos.Count() == 0)
+            {
+                _db.Add(new Auto("11-ZGH-1", "BMW", "730 (diesel v12)", 85.00m));
+                _db.Add(new Auto("18-YY-GG", "BMW", "323 (benzine)", 85.00m));
+                _db.Add(new Auto("SB-987-B", "BMW", "525 (turbo diesel)", 100.00m));
+                _db.Add(new Auto("32-ZH-XR", "Mercedes", "CLK (benzine)", 120.00m));
+                _db.Add(new Auto("45-RR-76", "Rols Roys", "Silver Shadow", 185.00m));
+                _db.Add(new Auto("1-LGH-99", "Porsche", "911s", 130.00m));
+                _db.Add(new Auto("9-HJK-89", "BMW", "323 (benzine)", 85.00m));
+                _db.Add(new Auto("8-KGB-12", "BMW", "525 (turbo diesel)", 100.00m));
+                _db.Add(new Auto("98-ZKK-3", "BMW", "525 (turbo diesel)", 95.00m));
+                _db.Add(new Auto("3-DLK-45", "Mercedes", "Pullman", 140.00m));
+                _db.Add(new Auto("42-RT-76", "Rols Roys", "Silver Shadow", 185.00m));
+                _db.SaveChanges();
+            }
             if (_db.Roles.Count() == 0)
             {
                 _roleManager.CreateAsync(new IdentityRole("Customer")).GetAwaiter().GetResult();

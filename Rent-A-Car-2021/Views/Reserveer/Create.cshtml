@@ -1,0 +1,53 @@
+﻿@model Rent_A_Car_2021.Models.ViewModels.ReserveerVM
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Overzicht beschikbare auto's</h2>
+
+
+<div class="row">
+
+    @foreach (var item in Model.AvailableCars)
+    {
+
+        var foto = "";
+        var filename = _env.WebRootPath + "\\images\\" + item.Kenteken + ".jpg";
+        if (System.IO.File.Exists(filename))
+        {
+            foto = "\\images\\" + item.Kenteken + ".jpg";
+        }
+        else
+        {
+            foto = "\\images\\no-image.jpg";
+        }
+        <div class="col-md-3">
+            <form method="post" asp-action="Create" asp-controller="Reserveer">
+                <input asp-for="@Model.Kenteken" type="hidden" value="@item.Kenteken" />
+                <div class="card">
+                    <div class="card-title">@item.Merk - @item.Type</div>
+                    <div class="card-body">
+                        <img src="@foto" alt="@item.Kenteken" title="@item.Kenteken - @item.Merk" style="width:100%" />
+                        <span>Dagprijs: € @item.Dagprijs</span>
+
+                    </div>
+                    <div class="card-footer">
+                        <label asp-for="@Model.Van" class="control-label"></label>
+                        <input asp-for="@Model.Van" class="form-control" />
+
+                        <label asp-for="@Model.AantalDagen" class="control-label"></label>
+                        <input asp-for="@Model.AantalDagen" class="form-control" />
+                    </div>
+                    <input type="submit"class="btn-info">Plaats order/>
+
+                    @*Only display the button if a customer is logged in*@
+                    @*@if (User.IsInRole("Customer"))
+                        {*@
+                    @*}*@
+                </div>
+            </form>
+        </div>
+
+    }
+</div>
