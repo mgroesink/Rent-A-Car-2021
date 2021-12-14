@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rent_A_Car_2021.Data;
 
-namespace Rent_A_Car_2021.Data.Migrations
+namespace Rent_A_Car_2021.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211211095158_Initial migration")]
-    partial class Initialmigration
+    [Migration("20211214054300_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -164,12 +164,10 @@ namespace Rent_A_Car_2021.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -206,12 +204,10 @@ namespace Rent_A_Car_2021.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -272,11 +268,10 @@ namespace Rent_A_Car_2021.Data.Migrations
 
             modelBuilder.Entity("Rent_A_Car_2021.Models.Factuurregel", b =>
                 {
-                    b.Property<int>("Factuurnummer")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Kenteken")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("FactuurID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AutoKenteken")
                         .HasColumnType("nvarchar(8)");
@@ -290,14 +285,14 @@ namespace Rent_A_Car_2021.Data.Migrations
                     b.Property<DateTime>("Einddatum")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("Factuurnummer1")
+                    b.Property<int>("Factuurnummer")
                         .HasColumnType("int");
 
-                    b.HasKey("Factuurnummer", "Kenteken");
+                    b.HasKey("FactuurID");
 
                     b.HasIndex("AutoKenteken");
 
-                    b.HasIndex("Factuurnummer1");
+                    b.HasIndex("Factuurnummer");
 
                     b.ToTable("Factuurregels");
                 });
@@ -448,7 +443,9 @@ namespace Rent_A_Car_2021.Data.Migrations
 
                     b.HasOne("Rent_A_Car_2021.Models.Factuur", "Factuur")
                         .WithMany()
-                        .HasForeignKey("Factuurnummer1");
+                        .HasForeignKey("Factuurnummer")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Auto");
 

@@ -14,9 +14,8 @@ namespace Rent_A_Car_2021.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Dagprijs { get; set; }
 
-        public int Factuurnummer { get; set; }
+        public int FactuurID { get; set; }
         public Factuur Factuur { get; set; }
-        public string Kenteken { get; set; }
         public Auto Auto { get; set; }
 
     }
