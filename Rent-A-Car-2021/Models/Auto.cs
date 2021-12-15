@@ -28,5 +28,9 @@ namespace Rent_A_Car_2021.Models
             Type = type;
             Dagprijs = dagprijs;
         }
+        public Auto()
+        {
+
+        }
     }
 }

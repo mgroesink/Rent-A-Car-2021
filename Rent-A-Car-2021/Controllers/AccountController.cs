@@ -95,5 +95,16 @@ namespace Rent_A_Car_2021.Controllers
             }
             return View(model);
         }
+
+        /// <summary>
+        /// Logs the current user off.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> LogOff()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

@@ -98,7 +98,8 @@ namespace Rent_A_Car_2021.Controllers
             }
             else
             {
-                item.FactuurRegelID = (int)HttpContext.Session.GetInt32("OrderNumber");
+                var factuurnummer = (int)HttpContext.Session.GetInt32("OrderNumber");
+                item.Factuur = _context.Facturen.FirstOrDefault(f=>f.Factuurnummer == factuurnummer);
             }
                 await _context.AddAsync(item);
                 await _context.SaveChangesAsync();

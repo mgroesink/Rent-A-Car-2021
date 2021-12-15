@@ -36,8 +36,8 @@
                         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
                     </li>
                     <li class="nav-item">
-                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                        <form class="form-inline" asp-controller="Account" asp-action="LogOff">
+                            <button type="submit" class="nav-link text-dark">Logout</button>
                         </form>
                     </li>
                 }
@@ -57,21 +57,17 @@
     <div id="container" class="row">
         <div class="col-md-3" id="menu">
 
-                @if (User.IsInRole("Employee"))
-                {
+            @if (User.IsInRole("Employee"))
+            {
 
-                        <a class="button btn-lg btn-info" asp-action="Index" asp-controller="Auto">Auto's</a>
-                        <a class="button btn-lg btn-info" asp-action="Index" asp-controller="Klant">Klanten</a>
-                        <a class="button btn-lg btn-info" asp-action="Index" asp-controller="Medewerker">Medewerkers</a>
-                }
-                else
-                {
-            
+                <a class="button btn-lg btn-info" asp-action="Index" asp-controller="Auto">Auto's</a>
+                <a class="button btn-lg btn-info" asp-action="Index" asp-controller="Klant">Klanten</a>
+                <a class="button btn-lg btn-info" asp-action="Index" asp-controller="Medewerker">Medewerkers</a>
+            }
+            else if (User.IsInRole("Customer"))
+            {
                 <a class="button btn-lg btn-info" asp-action="Create" asp-controller="Reserveer">Aanbod auto's</a>
-            
-                    @*@Html.ActionLink("Aanbod auto's", "Index", "Customer", new { },
-                                 new { @class = "button btn-lg btn-info" })*@
-                }
+            }
 
         </div>
         <div class="col-md-9">

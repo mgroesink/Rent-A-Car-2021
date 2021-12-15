@@ -81,7 +81,6 @@ img {
     height: 150px;
     width: 150px;
     margin: 20px;
-    width: 300px;
     left: 0;
 }
 #logo img{
@@ -133,7 +132,8 @@ img {
     text-align: center;
 }
 
-    #userinfo a {
+    #userinfo a,button {
+        width:100%;
         display: block;
         text-decoration: none;
         border-radius: 10px;
