@@ -25,8 +25,8 @@ namespace Rent_A_Car_2021.Data
             
             modelBuilder.Entity<Factuurregel>(c =>
             {
-                c.HasKey(c => c.FactuurID);
-                c.Property(c => c.FactuurID).ValueGeneratedOnAdd();
+                c.HasKey(c => c.FactuurRegelID);
+                c.Property(c => c.FactuurRegelID).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<Factuur>(b =>

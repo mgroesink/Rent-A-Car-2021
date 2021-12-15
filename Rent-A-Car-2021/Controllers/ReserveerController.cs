@@ -37,7 +37,7 @@ namespace Rent_A_Car_2021.Controllers
             }
 
             var factuurregel = await _context.Factuurregels
-                .FirstOrDefaultAsync(m => m.FactuurID == id);
+                .FirstOrDefaultAsync(m => m.FactuurRegelID == id);
             if (factuurregel == null)
             {
                 return NotFound();
@@ -49,8 +49,29 @@ namespace Rent_A_Car_2021.Controllers
         // GET: Reserveer/Create
         public IActionResult Create()
         {
-            var model = new ReserveerVM(_context);
+            List<ReserveerVM> model = GetAvailableCarModels();
+            ViewBag.AvailableCars = _context.Autos;
             return View(model);
+        }
+
+        private List<ReserveerVM> GetAvailableCarModels()
+        {
+            var model = new List<ReserveerVM>();
+            foreach (var auto in _context.Autos)
+            {
+                model.Add(new ReserveerVM()
+                {
+                    AantalDagen = 1,
+                    Kenteken = auto.Kenteken,
+                    Van = DateTime.Now.AddDays(1),
+                    Merk = auto.Merk,
+                    Type = auto.Type,
+                    Dagprijs = auto.Dagprijs
+                });
+
+            }
+
+            return model;
         }
 
         // POST: Reserveer/Create
@@ -58,15 +79,15 @@ namespace Rent_A_Car_2021.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string Kenteken, DateTime Van , int AantalDagen)
+        public async Task<IActionResult> Create(string kenteken, DateTime van , int aantalDagen)
         {
             var item = new Factuurregel();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            item.Auto = _context.Autos.FirstOrDefault(a => a.Kenteken == Kenteken);
-            item.Begindatum = Van;
-            item.Einddatum = Van.AddDays(AantalDagen);
+            item.Auto = _context.Autos.FirstOrDefault(a => a.Kenteken == kenteken);
+            item.Begindatum = van;
+            item.Einddatum = van.AddDays(aantalDagen);
             item.Dagprijs = item.Auto.Dagprijs;
-            item.Auto.Kenteken = Kenteken;
+            item.Auto.Kenteken = kenteken;
             if (HttpContext.Session.GetInt32("OrderNumber") == null)
             {
                 item.Factuur = new Factuur()
@@ -77,14 +98,13 @@ namespace Rent_A_Car_2021.Controllers
             }
             else
             {
-                item.FactuurID = (int)HttpContext.Session.GetInt32("OrderNumber");
+                item.FactuurRegelID = (int)HttpContext.Session.GetInt32("OrderNumber");
             }
                 await _context.AddAsync(item);
                 await _context.SaveChangesAsync();
             HttpContext.Session.SetInt32("OrderNumber", item.Factuur.Factuurnummer);
 
-            var model = new ReserveerVM(_context);
-            return View(model);
+            return View(GetAvailableCarModels());
         }
 
         // GET: Reserveer/Edit/5
@@ -110,7 +130,7 @@ namespace Rent_A_Car_2021.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Begindatum,Einddatum,Dagprijs,Factuurnummer,Kenteken")] Factuurregel factuurregel)
         {
-            if (id != factuurregel.FactuurID)
+            if (id != factuurregel.FactuurRegelID)
             {
                 return NotFound();
             }
@@ -124,7 +144,7 @@ namespace Rent_A_Car_2021.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FactuurregelExists(factuurregel.FactuurID))
+                    if (!FactuurregelExists(factuurregel.FactuurRegelID))
                     {
                         return NotFound();
                     }
@@ -147,7 +167,7 @@ namespace Rent_A_Car_2021.Controllers
             }
 
             var factuurregel = await _context.Factuurregels
-                .FirstOrDefaultAsync(m => m.FactuurID == id);
+                .FirstOrDefaultAsync(m => m.FactuurRegelID == id);
             if (factuurregel == null)
             {
                 return NotFound();
@@ -169,7 +189,7 @@ namespace Rent_A_Car_2021.Controllers
 
         private bool FactuurregelExists(int id)
         {
-            return _context.Factuurregels.Any(e => e.FactuurID == id);
+            return _context.Factuurregels.Any(e => e.FactuurRegelID == id);
         }
     }
 }

@@ -12,20 +12,22 @@ namespace Rent_A_Car_2021.Models.ViewModels
         private readonly ApplicationDbContext _db;
         public string Kenteken { get; set; }
         [DataType(DataType.Date)]
-        public DateTime Van { get; set; }
-        [Range(1,10)]
-        public int AantalDagen { get; set; }
-        public List<Auto> AvailableCars { get; set; }
+        public DateTime Van { get; set; } = DateTime.Now.AddDays(1);
+        [Range(1, 10)]
+        public int AantalDagen { get; set; } = 1;
+        public string Merk { get; set; }
+        public string Type { get; set; }
+        public decimal Dagprijs { get; set; }
+        //public List<Auto> AvailableCars { get; set; }
 
-        public ReserveerVM(ApplicationDbContext db)
-        {
-            _db = db;
-            AvailableCars = _db.Autos.ToList();
+        //public ReserveerVM(ApplicationDbContext db)
+        //{
+        //    _db = db;
+        //    AvailableCars = _db.Autos.ToList();
 
-        }
+        //}
         public ReserveerVM()
         {
-            AvailableCars = _db.Autos.ToList();
         }
     }
 }

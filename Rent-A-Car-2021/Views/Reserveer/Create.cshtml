@@ -1,4 +1,4 @@
-﻿@model Rent_A_Car_2021.Models.ViewModels.ReserveerVM
+﻿@model List<Rent_A_Car_2021.Models.ViewModels.ReserveerVM>
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env
 @{
     ViewBag.Title = "Index";
@@ -9,7 +9,7 @@
 
 <div class="row">
 
-    @foreach (var item in Model.AvailableCars)
+    @foreach (var item in Model)
     {
 
         var foto = "";
@@ -34,12 +34,12 @@
                     </div>
                     <div class="card-footer">
                         <form method="post" asp-action="Create" asp-controller="Reserveer" asp-route-id="@item.Kenteken">
-                            <input asp-for="@Model.Kenteken" type="hidden" value="@item.Kenteken" />
-                            <label asp-for="@Model.Van" class="control-label"></label>
-                            <input asp-for="@Model.Van" class="form-control" />
+                            <input name="kenteken" asp-for="@item.Kenteken" type="hidden" value="@item.Kenteken" />
+                            <label asp-for="@item.Van" class="control-label"></label>
+                            <input name="van" asp-for="@item.Van" class="form-control" />
 
-                            <label asp-for="@Model.AantalDagen" class="control-label"></label>
-                            <input asp-for="@Model.AantalDagen" class="form-control" />
+                            <label asp-for="@item.AantalDagen" class="control-label"></label>
+                            <input name="aantalDagen" asp-for="@item.AantalDagen" class="form-control" />
                             @*<a class="btn-info" asp-action="Create" asp-controller="Reserveer">Reserveer</a>*@
                             <input type="submit" class="btn-info" value="Plaats order" />
 
