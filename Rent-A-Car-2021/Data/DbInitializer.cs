@@ -26,7 +26,7 @@ namespace Rent_A_Car_2021.Data
 
         public void Initialize()
         {
-            if(_db.Autos.Count() == 0)
+            if (_db.Autos.CountAsync().GetAwaiter().GetResult() == 0)
             {
                 _db.Add(new Auto("11-ZGH-1", "BMW", "730 (diesel v12)", 85.00m));
                 _db.Add(new Auto("18-YY-GG", "BMW", "323 (benzine)", 85.00m));
@@ -41,7 +41,7 @@ namespace Rent_A_Car_2021.Data
                 _db.Add(new Auto("42-RT-76", "Rols Roys", "Silver Shadow", 185.00m));
                 _db.SaveChanges();
             }
-            if (_db.Roles.Count() == 0)
+            if (_db.Roles.CountAsync().GetAwaiter().GetResult() == 0)
             {
                 _roleManager.CreateAsync(new IdentityRole("Customer")).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole("Employee")).GetAwaiter().GetResult();
@@ -139,25 +139,25 @@ namespace Rent_A_Car_2021.Data
                     AspNetUserNavigation = _db.Users.FirstOrDefaultAsync(c => c.UserName == "mulih@yahoo.com").GetAwaiter().GetResult()
                 });
 
-                _db.SaveChanges();
+                _db.SaveChangesAsync().GetAwaiter().GetResult();
                 _userManager.AddToRoleAsync(
                     _db.Users.FirstOrDefaultAsync(c => c.UserName == "zwartj@rentacar.nl").GetAwaiter().GetResult(), "Employee"
-                    );
+                    ).GetAwaiter().GetResult();
                 _userManager.AddToRoleAsync(
                     _db.Users.FirstOrDefaultAsync(c => c.UserName == "witp@rentacar.nl").GetAwaiter().GetResult(), "Employee"
-                    );
+                    ).GetAwaiter().GetResult();
                 _userManager.AddToRoleAsync(
                     _db.Users.FirstOrDefaultAsync(c => c.UserName == "revek@gmail.com").GetAwaiter().GetResult(), "Customer"
-                    );
+                    ).GetAwaiter().GetResult();
                 _userManager.AddToRoleAsync(
                     _db.Users.FirstOrDefaultAsync(c => c.UserName == "wolkj@hotmail.com").GetAwaiter().GetResult(), "Customer"
-                    );
+                    ).GetAwaiter().GetResult();
                 _userManager.AddToRoleAsync(
                     _db.Users.FirstOrDefaultAsync(c => c.UserName == "hermw@kpnmail.nl").GetAwaiter().GetResult(), "Customer"
-                    );
+                    ).GetAwaiter().GetResult();
                 _userManager.AddToRoleAsync(
                     _db.Users.FirstOrDefaultAsync(c => c.UserName == "mulih@yahoo.com").GetAwaiter().GetResult(), "Customer"
-                    );
+                    ).GetAwaiter().GetResult();
 
             }
         }
