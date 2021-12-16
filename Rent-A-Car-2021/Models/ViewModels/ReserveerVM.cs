@@ -9,7 +9,6 @@ namespace Rent_A_Car_2021.Models.ViewModels
 {
     public class ReserveerVM
     {
-        private readonly ApplicationDbContext _db;
         public string Kenteken { get; set; }
         [DataType(DataType.Date)]
         public DateTime Van { get; set; } = DateTime.Now.AddDays(1);

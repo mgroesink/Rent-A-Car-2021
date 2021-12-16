@@ -7,7 +7,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Factuur</h4>
+    <h4>Factuur voor @Model.Klant.VolledigeNaam</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -22,9 +22,15 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Datum)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Factuurnummer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Factuurnummer)
+        </dd>
     </dl>
     <br />
-    <h4>Gehuurde auto's</h4>
+    <h4>Gereserveerde auto's</h4>
     <table class="table-bordered">
         @foreach (var line in Model.Factuurregels)
         {
@@ -36,8 +42,10 @@
             </tr>
         }
     </table>
+    <div>
+        <a asp-controller="Reserveer" asp-action="Create">Terug naar reserveringen</a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Factuurnummer">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+

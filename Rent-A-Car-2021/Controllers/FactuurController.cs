@@ -22,7 +22,7 @@ namespace Rent_A_Car_2021.Controllers
         // GET: Factuur
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Facturen.ToListAsync());
+            return View(await _context.Facturen.Include(f=>f.Klant).Include(f=>f.Factuurregels).ThenInclude(fr=>fr.Auto).ToListAsync());
         }
 
         // GET: Factuur/Details/5
@@ -33,7 +33,26 @@ namespace Rent_A_Car_2021.Controllers
                 return NotFound();
             }
 
-            var factuur = await _context.Facturen
+            var factuur = await _context.Facturen.Include(f => f.Klant).Include(f=>f.Factuurregels).ThenInclude(fr => fr.Auto)
+                .FirstOrDefaultAsync(m => m.Factuurnummer == id);
+            if (factuur == null)
+            {
+                return NotFound();
+            }
+
+            return View(factuur);
+        }
+
+
+        // GET: Factuur/Details/5
+        public async Task<IActionResult> Klantfactuur(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var factuur = await _context.Facturen.Include(f => f.Klant).Include(f => f.Factuurregels).ThenInclude(fr => fr.Auto)
                 .FirstOrDefaultAsync(m => m.Factuurnummer == id);
             if (factuur == null)
             {

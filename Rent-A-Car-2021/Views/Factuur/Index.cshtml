@@ -13,16 +13,39 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Klant.VolledigeNaam)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Datum)
+            </th>
+            <th>
+                Auto's
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Klant.VolledigeNaam)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Datum)
+            </td>
+            <td>
+                <table class="table-borderless m-0 p-0">
+                    @foreach (var line in item.Factuurregels)
+                    {
+                        <tr>
+                            <td>
+                                @line.Auto.Kenteken (@line.Auto.Merk): Van @line.Begindatum.ToShortDateString() tot en met
+                                @line.Einddatum.AddDays(-1).ToShortDateString()
+                            </td>
+                        </tr>
+                    }
+                </table>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Factuurnummer">Edit</a> |
@@ -30,6 +53,6 @@
                 <a asp-action="Delete" asp-route-id="@item.Factuurnummer">Delete</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>

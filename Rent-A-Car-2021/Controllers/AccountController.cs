@@ -103,6 +103,7 @@ namespace Rent_A_Car_2021.Controllers
         [HttpPost]
         public async Task<IActionResult> LogOff()
         {
+            HttpContext.Session.Remove("OrderNumber");
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }

@@ -14,7 +14,7 @@ namespace Rent_A_Car_2021.Models
         {
             Facturen = new HashSet<Factuur>();
         }
-        [Key , StringLength(6)]
+        [Key, StringLength(6)]
         [Column(TypeName = "char")]
         public string Klantcode { get; set; }
         [Required, StringLength(10)]
@@ -30,8 +30,15 @@ namespace Rent_A_Car_2021.Models
         public string Postcode { get; set; }
         [StringLength(75)]
         public string Woonplaats { get; set; }
-
-
+        [Display(Name = "Naam")]
+        public string VolledigeNaam
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Tussenvoegsels) ? Voorletters + " " + Achternaam :
+                   Voorletters + " " + Tussenvoegsels + " " + Achternaam;
+            }
+        }
         public virtual ICollection<Factuur> Facturen { get; set; }
         public virtual IdentityUser AspNetUserNavigation { get; set; }
 

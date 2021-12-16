@@ -15,5 +15,6 @@ namespace Rent_A_Car_2021.Models
 
         public virtual Klant Klant { get; set; }
         public virtual Medewerker Medewerker { get; set; }
+        public List<Factuurregel> Factuurregels { get; set; }
     }
 }

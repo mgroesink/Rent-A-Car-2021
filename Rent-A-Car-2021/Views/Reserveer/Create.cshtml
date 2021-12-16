@@ -1,11 +1,17 @@
 ﻿@model List<Rent_A_Car_2021.Models.ViewModels.ReserveerVM>
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor
+@using Microsoft.AspNetCore.Http
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>Overzicht beschikbare auto's</h2>
 
+@if (httpContextAccessor.HttpContext.Session.GetInt32("OrderNumber") != null)
+{
+    <a class="btn-lg" asp-action="Klantfactuur" asp-controller="Factuur" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("OrderNumber")">Toon factuur</a>
+}
 
 <div class="row">
 
@@ -25,34 +31,36 @@
         <div class="col-md-3">
 
 
-                <div class="card">
-                    <div class="card-title">@item.Merk - @item.Type</div>
-                    <div class="card-body">
-                        <img src="@foto" alt="@item.Kenteken" title="@item.Kenteken - @item.Merk" style="width:100%" />
-                        <span>Dagprijs: € @item.Dagprijs</span>
+            <div class="card">
+                <div class="card-title">@item.Merk - @item.Type</div>
+                <div class="card-body">
+                    <img src="@foto" alt="@item.Kenteken" title="@item.Kenteken - @item.Merk" style="width:100%" />
+                    <span>Dagprijs: € @item.Dagprijs</span>
 
-                    </div>
-                    <div class="card-footer">
-                        <form method="post" asp-action="Create" asp-controller="Reserveer" asp-route-id="@item.Kenteken">
-                            <input name="kenteken" asp-for="@item.Kenteken" type="hidden" value="@item.Kenteken" />
-                            <label asp-for="@item.Van" class="control-label"></label>
-                            <input name="van" asp-for="@item.Van" class="form-control" />
-
-                            <label asp-for="@item.AantalDagen" class="control-label"></label>
-                            <input name="aantalDagen" asp-for="@item.AantalDagen" class="form-control" />
-                            @*<a class="btn-info" asp-action="Create" asp-controller="Reserveer">Reserveer</a>*@
-                            <input type="submit" class="btn-info" value="Plaats order" />
-
-                        </form>
-                    </div>
-
-                    @*Only display the button if a customer is logged in*@
-                    @*@if (User.IsInRole("Customer"))
-                        {*@
-                    @*}*@
                 </div>
+                <div class="card-footer">
+                    <form method="post" asp-action="Create" asp-controller="Reserveer" asp-route-id="@item.Kenteken">
+                        <input name="kenteken" asp-for="@item.Kenteken" type="hidden" value="@item.Kenteken" />
+                        <label asp-for="@item.Van" class="control-label"></label>
+                        <input name="van" asp-for="@item.Van" class="form-control" min="@DateTime.Now" />
+
+                        <label asp-for="@item.AantalDagen" class="control-label"></label>
+                        <input name="aantalDagen" asp-for="@item.AantalDagen" class="form-control" />
+                        <input type="submit" class="btn-info" value="Plaats order" />
+                    </form>
+                </div>
+
+                @*Only display the button if a customer is logged in*@
+                @*@if (User.IsInRole("Customer"))
+                    {*@
+                @*}*@
+            </div>
 
         </div>
 
+    }
+    @if (httpContextAccessor.HttpContext.Session.GetInt32("OrderNumber") != null)
+    {
+        <a class="btn-lg" asp-action="Klantfactuur" asp-controller="Factuur" asp-route-id="@httpContextAccessor.HttpContext.Session.GetInt32("OrderNumber")">Toon factuur</a>
     }
 </div>
